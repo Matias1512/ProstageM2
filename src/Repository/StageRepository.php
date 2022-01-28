@@ -47,4 +47,13 @@ class StageRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByEntreprise($nomEntreprise){
+        return $this->createQueryBuilder('s')
+            ->join('s.entreprise','e')
+            ->where('e.entreprise = :nomEntreprise')
+            ->setParameter('numSemestre', $nomEntreprise)
+            ->getQuery()
+            ->getResult();
+    }
 }

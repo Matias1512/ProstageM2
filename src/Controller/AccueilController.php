@@ -9,7 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Entreprise;
 use App\Entity\Formation;
 use App\Entity\Stage;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
+use Symfony\Component\HttpFoundation\Request;
 
 class AccueilController extends AbstractController
 {
@@ -89,6 +92,28 @@ class AccueilController extends AbstractController
             'uneFormation'=>$uneFormation
         ]);
     }
-}
     
+    /**
+     * @Route("/formulaireEntreprise", name="formulaireEntreprise")
+     */
+    public function ajouterEntreprise(Request $requeteHttp){
+        $entreprise = new Entreprise();
 
+        $formulaireEntreprise = $this   -> createFormBuilder($entreprise)
+                                        -> add('nom')
+                                        -> add('adresse')
+                                        -> add('activite')
+                                        -> add('siteWeb', UrlType::class)
+                                        -> add('Enregistrer', SubmitType::class)
+                                        -> getForm();
+
+        $vueFormulaireEntreprise = $formulaireEntreprise -> createView();
+
+        $formulaireEntreprise->handleRequest($requeteHttp);
+
+        return $this->render('accueil/formulaireEntreprise.html.twig',
+                            ['vueFormulaireEntreprise'=> $vueFormulaireEntreprise]);
+    }
+
+
+}

@@ -12,6 +12,8 @@ use App\Entity\Stage;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
+use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class AccueilController extends AbstractController
@@ -96,7 +98,7 @@ class AccueilController extends AbstractController
     /**
      * @Route("/formulaireEntreprise", name="formulaireEntreprise")
      */
-    public function ajouterEntreprise(Request $requeteHttp){
+    public function ajouterEntreprise(Request $requeteHttp, EntityManagerInterface $manager){
         $entreprise = new Entreprise();
 
         $formulaireEntreprise = $this   -> createFormBuilder($entreprise)
@@ -111,8 +113,47 @@ class AccueilController extends AbstractController
 
         $formulaireEntreprise->handleRequest($requeteHttp);
 
+        if ($formulaireEntreprise->isSubmitted())
+        {
+            //$entreprise->setDateAjout(new \DateTime());
+
+            $manager->persist($entreprise);
+            $manager->flush();
+
+            return $this->redirectToRoute('entreprises');
+        }
+
         return $this->render('accueil/formulaireEntreprise.html.twig',
                             ['vueFormulaireEntreprise'=> $vueFormulaireEntreprise]);
+    }
+
+    /**
+     * @Route("/formulaireModifierEntreprise/{id_entreprise}", name="formulaireModifierEntreprise")
+     */
+
+    public function modifierEntreprise(Request $requeteHttp, EntityManagerInterface $manager, Entreprise $id_entreprise){
+        
+        $formulaireModifierEntreprise = $this   -> createFormBuilder($id_entreprise)
+                                        -> add('nom')
+                                        -> add('adresse')
+                                        -> add('activite')
+                                        -> add('siteWeb', UrlType::class)
+                                        -> add('Enregistrer', SubmitType::class)
+                                        -> getForm();
+
+        $vueFormulaireModifierEntreprise = $formulaireModifierEntreprise -> createView();
+
+        $formulaireModifierEntreprise->handleRequest($requeteHttp);
+
+        if ($formulaireModifierEntreprise->isSubmitted())
+        {
+            $manager->persist($id_entreprise);
+            $manager->flush();
+            return $this->redirectToRoute('entreprises');
+        }
+
+        return $this->render('accueil/formulaireModifierEntreprise.html.twig',
+                            ['vueFormulaireModifierEntreprise'=> $vueFormulaireModifierEntreprise]);
     }
 
 

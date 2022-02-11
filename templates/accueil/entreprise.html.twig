@@ -19,6 +19,7 @@
                 <h5 class="card-title">Activité: {{entreprise.activite}} </h5><br>
                 <h5 class="card-title">Activité: {{entreprise.siteWeb}} </h5>
                 <a href="{{ path('detailEntreprise', {'id_entreprise': entreprise.id}) }}" class="btn btn-primary">Stage</a>
+                <a href="{{ path('formulaireModifierEntreprise', {'id_entreprise': entreprise.id}) }}" class="btn btn-primary">Modifier</a>
             </div>
         </div>    
 {% endfor %}

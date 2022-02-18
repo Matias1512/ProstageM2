@@ -157,5 +157,14 @@ class AccueilController extends AbstractController
                             ['vueFormulaireModifierEntreprise'=> $vueFormulaireModifierEntreprise]);
     }
 
+    /**
+     * @Route("/Stage/ajouter", name="ajoutStage")
+     */
+    public function ajouterStage(Request $requeteHttp, ObjectManager $manager)
+    {
+        $stage=new Stage();
+        $formulaireStage=$this->createForm(StageType::class, $stage);
+        $formulaireStage->handleRequest($requeteHttp);
+    }
 
 }

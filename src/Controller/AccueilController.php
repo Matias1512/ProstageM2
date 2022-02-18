@@ -109,11 +109,10 @@ class AccueilController extends AbstractController
                                         -> add('Enregistrer', SubmitType::class)
                                         -> getForm();
 
-        $vueFormulaireEntreprise = $formulaireEntreprise -> createView();
-
+        
         $formulaireEntreprise->handleRequest($requeteHttp);
 
-        if ($formulaireEntreprise->isSubmitted())
+        if ($formulaireEntreprise->isSubmitted()&&$formulaireEntreprise->isValid())
         {
             //$entreprise->setDateAjout(new \DateTime());
 
@@ -122,6 +121,8 @@ class AccueilController extends AbstractController
 
             return $this->redirectToRoute('entreprises');
         }
+
+        $vueFormulaireEntreprise = $formulaireEntreprise -> createView();
 
         return $this->render('accueil/formulaireEntreprise.html.twig',
                             ['vueFormulaireEntreprise'=> $vueFormulaireEntreprise]);
@@ -145,7 +146,7 @@ class AccueilController extends AbstractController
 
         $formulaireModifierEntreprise->handleRequest($requeteHttp);
 
-        if ($formulaireModifierEntreprise->isSubmitted())
+        if ($formulaireModifierEntreprise->isSubmitted()&&$formulaireEntreprise->isValid())
         {
             $manager->persist($id_entreprise);
             $manager->flush();

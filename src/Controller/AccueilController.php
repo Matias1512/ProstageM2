@@ -11,6 +11,7 @@ use App\Entity\Formation;
 use App\Entity\Stage;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use App\Form\StageType;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -158,13 +159,24 @@ class AccueilController extends AbstractController
     }
 
     /**
-     * @Route("/Stage/ajouter", name="ajoutStage")
+     * @Route("/Stage/ajouter", name="formulaireStage")
      */
-    public function ajouterStage(Request $requeteHttp, ObjectManager $manager)
+    public function ajouterStage(Request $requeteHttp, EntityManagerInterface $manager)
     {
-        $stage=new Stage();
+        $stage = new Stage();
         $formulaireStage=$this->createForm(StageType::class, $stage);
         $formulaireStage->handleRequest($requeteHttp);
-    }
+        $vueFormulaireStage = $formulaireStage -> createView();
+        $formulaireStage->handleRequest($requeteHttp);
 
+        if ($formulaireStage->isSubmitted()&&$formulaireStage->isValid())
+        {
+            $manager->persist($stage);
+            $manager->flush();
+            return $this->redirectToRoute('stages');
+        }
+
+        return $this->render('accueil/formulaireStage.html.twig',
+                            ['vueFormulaireStage'=> $vueFormulaireStage]);
+    }
 }

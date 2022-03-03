@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Stage;
+use App\Entity\Formation;
+use App\Entity\Entreprise;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,8 +17,14 @@ class StageType extends AbstractType
             ->add('titre')
             ->add('mission')
             ->add('email')
-            ->add('formations')
-            ->add('entreprise')
+            ->add('formations', EntityType::class, array(
+                'class' => Formation::class,
+                'choice_label' => '$nomCourt',
+
+                'multiple' => true,
+                'expanded' => true,
+            ))
+            //->add('entreprise', Entreprise::class)
         ;
     }
 

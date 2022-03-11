@@ -9,8 +9,15 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Stage</h1>
-    {{ form(vueFormulaireStage) }}
+    <h1>Ajouter Stage</h1>
+    {{ form_start(FormulaireStage, {'attr': {'novalidate' : 'novalidate'}}) }}
+        {{ form_row(FormulaireStage.titre)}}
+        {{ form_row(FormulaireStage.mission)}}
+        {{ form_row(FormulaireStage.email)}}
+        {{ form_row(FormulaireStage.entreprise)}}
+        {{ form_row(FormulaireStage.formations)}}
+        <button type="submit" class="btn btn-dark">Enregistrer</button>
+    {{ form_end(FormulaireStage) }}
 </div>
 
 {% endblock %}

@@ -12,6 +12,7 @@ use App\Entity\Stage;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use App\Form\StageType;
+use App\Form\EntrepriseType;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -101,16 +102,7 @@ class AccueilController extends AbstractController
      */
     public function ajouterEntreprise(Request $requeteHttp, EntityManagerInterface $manager){
         $entreprise = new Entreprise();
-
-        $formulaireEntreprise = $this   -> createFormBuilder($entreprise)
-                                        -> add('nom')
-                                        -> add('adresse')
-                                        -> add('activite')
-                                        -> add('siteWeb', UrlType::class)
-                                        -> add('Enregistrer', SubmitType::class)
-                                        -> getForm();
-
-        
+        $formulaireEntreprise=$this->createForm(EntrepriseType::class, $entreprise);
         $formulaireEntreprise->handleRequest($requeteHttp);
 
         if ($formulaireEntreprise->isSubmitted()&&$formulaireEntreprise->isValid())
@@ -135,18 +127,8 @@ class AccueilController extends AbstractController
 
     public function modifierEntreprise(Request $requeteHttp, EntityManagerInterface $manager, Entreprise $id_entreprise){
         
-        $formulaireModifierEntreprise = $this   -> createFormBuilder($id_entreprise)
-                                        -> add('nom')
-                                        -> add('adresse')
-                                        -> add('activite')
-                                        -> add('siteWeb', UrlType::class)
-                                        -> add('Enregistrer', SubmitType::class)
-                                        -> getForm();
-
-        $vueFormulaireModifierEntreprise = $formulaireModifierEntreprise -> createView();
-
-        $formulaireModifierEntreprise->handleRequest($requeteHttp);
-
+        $formulaireEntreprise=$this->createForm(EntrepriseType::class,$id_entreprise);
+        $formulaireEntreprise->handleRequest($requeteHttp);
         if ($formulaireModifierEntreprise->isSubmitted()&&$formulaireEntreprise->isValid())
         {
             $manager->persist($id_entreprise);
@@ -165,8 +147,7 @@ class AccueilController extends AbstractController
     {
         $stage = new Stage();
         $formulaireStage=$this->createForm(StageType::class, $stage);
-        $formulaireStage->handleRequest($requeteHttp);
-        $vueFormulaireStage = $formulaireStage -> createView();
+
         $formulaireStage->handleRequest($requeteHttp);
 
         if ($formulaireStage->isSubmitted()&&$formulaireStage->isValid())
@@ -177,6 +158,6 @@ class AccueilController extends AbstractController
         }
 
         return $this->render('accueil/formulaireStage.html.twig',
-                            ['vueFormulaireStage'=> $vueFormulaireStage]);
+                            ['FormulaireStage'=> $formulaireStage->createView()]);
     }
 }

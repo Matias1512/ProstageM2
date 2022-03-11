@@ -15,8 +15,11 @@
         <div class="card">
             <h5 class="card-header">{{stage.titre}}</h5>
             <div class="card-body">
-                <h5 class="card-title">Mission: {{stage.mission}}</h5><br>
-                <h5 class="card-title">Email {{stage.email}} </h5>
+                <h5 class="card-title">Titre: {{stage.titre}}</h5>
+                <h5 class="card-title">Mission: {{stage.mission}} </h5>
+                <h5 class="card-title">Email: {{stage.email}} </h5>
+                <h5 class="card-title">Formation:{{stage.formations[0].nomCourt}}
+                <h5 class="card-title">Entreprise: {{stage.getEntreprise().getNom()}} </h5>
                 <a href="{{ path('detailStage', {'id_stage': stage.id}) }}" class="btn btn-primary">Voir</a>
             </div>
         </div>    

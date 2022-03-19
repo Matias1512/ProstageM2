@@ -127,17 +127,22 @@ class AccueilController extends AbstractController
 
     public function modifierEntreprise(Request $requeteHttp, EntityManagerInterface $manager, Entreprise $id_entreprise){
         
-        $formulaireEntreprise=$this->createForm(EntrepriseType::class,$id_entreprise);
+        $formulaireEntreprise= $this->createForm(EntrepriseType::class,$id_entreprise);
+        
         $formulaireEntreprise->handleRequest($requeteHttp);
-        if ($formulaireModifierEntreprise->isSubmitted()&&$formulaireEntreprise->isValid())
-        {
-            $manager->persist($id_entreprise);
-            $manager->flush();
-            return $this->redirectToRoute('entreprises');
-        }
 
-        return $this->render('accueil/formulaireModifierEntreprise.html.twig',
-                            ['vueFormulaireModifierEntreprise'=> $vueFormulaireModifierEntreprise]);
+            if($formulaireEntreprise->isSubmitted() && $formulaireEntreprise->isValid())
+            {
+                
+                $manager->persist($id_entreprise);
+                $manager->flush();
+
+                return $this->redirectToRoute('accueil');
+            }
+
+            return $this->render('accueil/formulaireEntreprise.html.twig', [
+                'vueFormulaireEntreprise'=>$formulaireEntreprise->createView()
+        ]);
     }
 
     /**

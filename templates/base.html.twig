@@ -37,6 +37,22 @@
             <li class="nav-item">
                 <a class="nav-link" href="/profile/Stage/ajouter">Ajout Stage</a>
             </li>
+
+            {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Se déconnecter</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/inscription">S'inscrire</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Se connecter</a>
+                </li>
+            {% endif %}
+
+
+            
         </ul>
         {% endblock %}
 

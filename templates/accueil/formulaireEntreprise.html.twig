@@ -10,7 +10,14 @@
 
 <div class="example-wrapper">
     <h1>Ajout Entreprise</h1>
-    {{ form(vueFormulaireEntreprise) }}
+    {{ form_start(vueFormulaireEntreprise, {'attr': {'novalidate' : 'novalidate'}}) }}
+    {{ form_row(vueFormulaireEntreprise.nom)}}
+    {{ form_row(vueFormulaireEntreprise.adresse)}}
+    {{ form_row(vueFormulaireEntreprise.activite)}}
+    {{ form_row(vueFormulaireEntreprise.siteWeb)}}
+    <button type="submit" class="btn btn-dark">Enregistrer</button>
+    <br>
+    {{ form_end(vueFormulaireEntreprise) }}
 </div>
 
 {% endblock %}

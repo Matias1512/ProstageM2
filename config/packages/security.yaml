@@ -1,18 +1,20 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
     providers:
-        in_memory:
-            memory:
-                users:
-                    Matias: { password: $2y$10$QukXjI9dI8.atyr..C3CFecfyzvGzQOxNbnw0Lq619TgIC2h/hHUC, roles: ROLE_ADMIN}
-                    Loan: { password: $2y$10$INkmjjDaZzUswVdbqz1YqeMnpuVuznkfAGdufK4DTB724/96GpX.K, roles: ROLE_USER}
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: pseudo
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
-            provider: in_memory
 
             http_basic: true
 
@@ -27,8 +29,3 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: [ROLE_USER, ROLE_ADMIN] }
-
-    encoders:
-        Symfony\Component\Security\Core\User\User:
-            algorithm:  bcrypt
-            cost:       15

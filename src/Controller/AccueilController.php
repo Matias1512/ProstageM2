@@ -98,7 +98,7 @@ class AccueilController extends AbstractController
     }
     
     /**
-     * @Route("/formulaireEntreprise", name="formulaireEntreprise")
+     * @Route("/admin/formulaireEntreprise", name="formulaireEntreprise")
      */
     public function ajouterEntreprise(Request $requeteHttp, EntityManagerInterface $manager){
         $entreprise = new Entreprise();
@@ -141,7 +141,7 @@ class AccueilController extends AbstractController
     }
 
     /**
-     * @Route("/Stage/ajouter", name="formulaireStage")
+     * @Route("/profile/Stage/ajouter", name="formulaireStage")
      */
     public function ajouterStage(Request $requeteHttp, EntityManagerInterface $manager)
     {

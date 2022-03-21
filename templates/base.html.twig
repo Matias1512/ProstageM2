@@ -29,7 +29,7 @@
                 <a class="nav-link" href="/entreprises">Entreprise</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/formations">Formation</a>
+                <a class="nav-link" href="/admin/formation/">Formation</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/admin/formulaireEntreprise">Ajout Entreprise</a>
@@ -51,8 +51,11 @@
                 </li>
             {% endif %}
 
-
-            
+            {% if is_granted('ROLE_ADMIN')%}
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Administrateur</a>
+                </li>
+            {% endif %}
         </ul>
         {% endblock %}
 

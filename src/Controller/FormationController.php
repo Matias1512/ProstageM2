@@ -63,7 +63,7 @@ class FormationController extends AbstractController
      */
     public function edit(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(Formation1Type::class, $formation);
+        $form = $this->createForm(FormationType::class, $formation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

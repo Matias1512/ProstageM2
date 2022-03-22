@@ -133,7 +133,6 @@ class AccueilController extends AbstractController
 
             if($formulaireEntreprise->isSubmitted() && $formulaireEntreprise->isValid())
             {
-                
                 $manager->persist($id_entreprise);
                 $manager->flush();
 
